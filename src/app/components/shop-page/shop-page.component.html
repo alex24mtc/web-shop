@@ -1,1 +1,49 @@
-<p>Shop Main Page</p>
+<h2>Shop Main Page</h2>
+
+<ul class="listado-productos">
+    <li *ngFor="let p of products">{{p.id}}
+        {{p.name}}
+        {{p.price}}€
+    <button (click)="addCart(p)">+</button>
+    <button (click)="deleteProduct(p)">-</button>
+    </li>
+</ul>
+
+
+<div>
+    <h2>DISCOUNT:</h2>
+    <ul>
+      <li>Buy-one-get-one-free of green tea. (2*1)</li>
+      <li>
+        Strawberries, if you buy 3 or more strawberries, the price should drop to
+        £4.50
+      </li>
+      <li>
+        offee. If you buy 3 or more coffees, the price of all coffees should drop
+        to two thirds.
+      </li>
+    </ul>
+  </div>
+  
+  
+
+
+
+
+  <div *ngIf="cart">
+    <h2>Cart:</h2>
+    <div *ngFor="let product of cart">
+      <h4>{{ product.name }}</h4>
+      <ul>
+        <li>Unit Price: £ {{ product.price }}</li>
+        <li *ngIf="product.finalPrice">Price WITH discount: {{ product.finalPrice | number:'1.2-2' }}</li>
+        <li>Quantity: {{ product.quantity }} unit(s)</li>
+      </ul>
+    </div>
+
+    <button (click)="goCheckout()">Checkout</button>
+
+
+  </div>
+
+

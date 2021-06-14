@@ -5,14 +5,14 @@ import { AppComponent } from './app.component';
 //components created
 import { CheckoutPageComponent } from './components/checkout-page/checkout-page.component';
 import { ShopPageComponent } from './components/shop-page/shop-page.component';
-import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     CheckoutPageComponent,
-    ShopPageComponent,
-    ShoppingCartComponent
+    ShopPageComponent
+
   ],
   imports: [
     BrowserModule,
