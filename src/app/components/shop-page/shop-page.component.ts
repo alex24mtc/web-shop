@@ -23,6 +23,7 @@ export class ShopPageComponent implements OnInit {
     private cartService:CartService) { }
 
   ngOnInit(): void {
+    this.cart = this.cartService.getCart()
   }
 
   goCheckout(){

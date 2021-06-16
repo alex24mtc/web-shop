@@ -1,43 +1,66 @@
-<h2>Shop Main Page</h2>
-
-<ul class="listado-productos">
-    <li *ngFor="let p of products">{{p.id}}
-        {{p.name}}
-        {{p.price}}€
-    <button (click)="addCart(p)">+</button>
-    <button (click)="deleteProduct(p)">-</button>
-    </li>
-</ul>
 
 
-<div>
-    <h2>DISCOUNT:</h2>
+  <div class="card" style="width:80vw; margin-left:5em;margin-top:3em;margin-bottom:3em">
+    <ul class="list-group list-group-horizontal" >
+      <li class="list-group-item" *ngFor="let p of products">{{p.id}} /
+          {{p.name}} /
+          {{p.price}}€
+      <img src={{p.img}}>
+          <div class="btn-group" role="group" aria-label="Basic example">
+            <button class="btn btn-primary" (click)="addCart(p)">+</button>
+            <button class="btn btn-primary" (click)="deleteProduct(p)">-</button>
+          </div>
+      </li>
+    </ul>
+
+  <div>
+
+    <div class="card" style="width:50vw; margin-left:5em;margin-top:3em;margin-bottom:3em">
+  
+
+    <h2>DISCOUNTS:</h2>
     <ul>
-      <li>Buy-one-get-one-free of green tea. (2*1)</li>
+      <li>Buy-one-get-one-free of green tea. (2X1)</li>
       <li>
         Strawberries, if you buy 3 or more strawberries, the price should drop to
-        £4.50
+        4.50€
       </li>
       <li>
         offee. If you buy 3 or more coffees, the price of all coffees should drop
         to two thirds.
       </li>
     </ul>
+
   </div>
   
   
 
 
-
-
-  <div *ngIf="cart">
+  <div *ngIf="cart" style="width:30vw; margin-left: 5em;">
     <h2>Cart:</h2>
-    <div *ngFor="let product of cart">
-      <h4>{{ product.name }}</h4>
+    <div *ngFor="let product of cart" class="list-group" style="width:30vw">
+      <h4 class="list-group-item list-group-item-action active">{{ product.name }}</h4>
       <ul>
-        <li>Unit Price: £ {{ product.price }}</li>
-        <li *ngIf="product.finalPrice">Price WITH discount: {{ product.finalPrice | number:'1.2-2' }}</li>
-        <li>Quantity: {{ product.quantity }} unit(s)</li>
+        <li>Unit Price:  {{ product.price }}€</li>
+
+        <li class="list-group-item list-group-item-action" *ngIf="product.id === 'GR1'">
+          Quantity Free: {{ product.quantity / 2 }} unit(s)
+        </li>
+        <li class="list-group-item list-group-item-action"  *ngIf="product.id === 'SR1' && product.quantity >= 3 && product.finalPrice">
+          Price Dropped:
+          {{ product.price * product.quantity - product.finalPrice }}€
+        </li>
+        
+        <li class="list-group-item list-group-item-action" *ngIf="product.id === 'CF1' && product.quantity >= 3 && product.finalPrice">
+          Price Dropped:
+          {{
+            product.price * product.quantity - product.finalPrice
+              | number: "1.2-2"
+          }}€
+        </li>
+
+        <li class="list-group-item list-group-item-action" *ngIf="product.finalPrice">Price WITH discount: {{ product.finalPrice | number:'1.2-2' }}€</li>
+        <li class="list-group-item list-group-item-action">Quantity: {{ product.quantity }} unit(s)</li>
       </ul>
     </div>
 
@@ -45,5 +68,6 @@
 
 
   </div>
+
 
 

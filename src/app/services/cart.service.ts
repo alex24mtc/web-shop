@@ -13,6 +13,9 @@ export class CartService {
 
   products=PRODUCTS;  //es el mock-products (el json)
   cart?:CartProduct[] = [];  //significa que de inicio esta vacio
+  cartNumberOfProducts:number = 0;
+  totalPrice:number=0;
+
 
   constructor() { }
 
@@ -54,7 +57,9 @@ export class CartService {
           if (list[i].quantity % 2 != 0) {
             list[i].quantity += 1;
             list[i].finalPrice = list[i].price * (list[i].quantity / 2);
-          }
+          }else{
+            list[i].finalPrice = list[i].price * (list[i].quantity / 2)
+            }
           break;
 
         case 'SR1':
@@ -69,7 +74,7 @@ export class CartService {
 
         case 'CF1':
           if (list[i].quantity >= 3) {
-            list[i].finalPrice = list[i].price * 0.6 * list[i].quantity;
+            list[i].finalPrice = list[i].price * 0.67 * list[i].quantity;
           } else if (list[i].quantity === 1) {
             list[i].finalPrice = list[i].price;
           } else if (list[i].quantity === 2) {
@@ -83,22 +88,70 @@ export class CartService {
   }
   
   deleteProduct(product:Product){
-    let productCart=this.cart.find(elementCart => elementCart.id === product.id);
-
-    if(productCart===undefined){
-      return;
+    let productCart = this.cart.find(
+      (elementCart) => elementCart.id === product.id
+      );
+      
+      if (productCart!.id === 'GR1') {
+      productCart!.quantity -= 2;
+      } else {
+      productCart!.quantity -= 1;
+      }
+      if (productCart!.quantity <= 0) {
+      let index = this.cart.indexOf(productCart!);
+      this.cart.splice(index, 1);
+      }
+      console.log(product);
+      this.applyPromotions(this.cart);
+      return this.cart;
+      
+      
+  }
+  /*
+  deleteProduct(product:Product){
+  let productCart = this.cart.find(
+    (elementCart) => elementCart.id === product.id
+    );
+    
+    if (productCart!.id === 'GR1') {
+    productCart!.quantity -= 2;
+    } else {
+    productCart!.quantity -= 1;
     }
-    
-    if(productCart .quantity>1){ 
-      productCart.quantity -=1;   
-    
-    }else{
-     let index= this.cart.indexOf(productCart);
-     this.cart.splice(index,1);
+    if (productCart!.quantity <= 0) {
+    let index = this.cart.indexOf(productCart!);
+    this.cart.splice(index, 1);
     }
     console.log(product);
-
+    this.checkDiscount(this.cart);
+    return this.cart;
   }
+  */
+    
+  
+    calculateFinalPrice() {
+    this.totalPrice = this.cart.reduce((
+        acumulado,
+        siguiente,
+      ) => {
+        
+        return acumulado + siguiente.finalPrice!
+      },
+        0);
+  
+      this.cartNumberOfProducts = this.cart.reduce((
+        acumulado,
+        siguiente,
+      ) => 
+        acumulado  + siguiente.quantity!,
+        0);
+      console.log('numero de productos: ', this.cartNumberOfProducts)
+      console.log('total ', this.totalPrice)
+      //this.precioTotal.next(newTotal)
+      //this.totalProducts.next(carrLenght)
+    }
+  
+  
   
 
   getCart(){     //es para enlazar con el servicio cartService
